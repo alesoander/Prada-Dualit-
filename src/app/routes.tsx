@@ -26,4 +26,4 @@ export const router = createBrowserRouter([
     path: "/results",
     Component: PerfumeResults,
   },
-]);
+], { basename: import.meta.env.BASE_URL });
