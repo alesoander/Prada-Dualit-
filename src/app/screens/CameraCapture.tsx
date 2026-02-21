@@ -1,7 +1,9 @@
 import { useRef, useState, useEffect } from "react";
-import { Camera, Upload, RefreshCw } from "lucide-react";
+import { useNavigate } from "react-router";
+import { Camera, Upload, RefreshCw, ArrowRight } from "lucide-react";
 
 export default function CameraCapture() {
+  const navigate = useNavigate();
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -30,11 +32,12 @@ export default function CameraCapture() {
     setError(null);
     try {
       const mediaStream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: "environment" },
+        video: { facingMode: { ideal: "environment" }, width: { ideal: 1280 }, height: { ideal: 720 } },
         audio: false,
       });
       if (videoRef.current) {
         videoRef.current.srcObject = mediaStream;
+        await videoRef.current.play();
       }
       setStream(mediaStream);
       setIsCameraActive(true);
@@ -42,11 +45,12 @@ export default function CameraCapture() {
       // Fall back to front camera if back camera is unavailable
       try {
         const mediaStream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: "user" },
+          video: { facingMode: { ideal: "user" } },
           audio: false,
         });
         if (videoRef.current) {
           videoRef.current.srcObject = mediaStream;
+          await videoRef.current.play();
         }
         setStream(mediaStream);
         setIsCameraActive(true);
@@ -70,7 +74,12 @@ export default function CameraCapture() {
     stopStream(stream);
     setStream(null);
     setIsCameraActive(false);
+    sessionStorage.setItem("capturedImage", dataUrl);
     setCapturedImage(dataUrl);
+  };
+
+  const continueToAnalyzing = () => {
+    navigate("/analyzing");
   };
 
   const retake = () => {
@@ -86,7 +95,9 @@ export default function CameraCapture() {
         stopStream(stream);
         setStream(null);
         setIsCameraActive(false);
-        setCapturedImage(e.target?.result as string);
+        const dataUrl = e.target?.result as string;
+        sessionStorage.setItem("capturedImage", dataUrl);
+        navigate("/analyzing");
       };
       reader.readAsDataURL(file);
     }
@@ -125,6 +136,7 @@ export default function CameraCapture() {
               ref={videoRef}
               autoPlay
               playsInline
+              muted
               className="absolute inset-0 w-full h-full object-cover"
             />
           )}
@@ -177,13 +189,22 @@ export default function CameraCapture() {
             Capture Photo
           </button>
         ) : capturedImage ? (
-          <button
-            onClick={retake}
-            className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full text-lg shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
-          >
-            <RefreshCw className="w-6 h-6" />
-            Retake
-          </button>
+          <div className="space-y-3">
+            <button
+              onClick={continueToAnalyzing}
+              className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full text-lg shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
+            >
+              <ArrowRight className="w-6 h-6" />
+              Continue
+            </button>
+            <button
+              onClick={retake}
+              className="w-full py-4 bg-white text-purple-600 border-2 border-purple-500 rounded-full text-lg shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
+            >
+              <RefreshCw className="w-6 h-6" />
+              Retake
+            </button>
+          </div>
         ) : null}
       </div>
     </div>
