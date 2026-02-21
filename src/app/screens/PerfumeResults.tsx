@@ -6,23 +6,23 @@ import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 const perfumes = [
   {
     id: 1,
-    name: "Mystic Rose",
-    subtitle: "Elegant & Romantic",
-    image: "https://images.unsplash.com/photo-1545936761-c64b78657cb1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyb3NlJTIwcGVyZnVtZSUyMGJvdHRsZSUyMHBpbmt8ZW58MXx8fHwxNzcxNjg0ODg4fDA&ixlib=rb-4.1.0&q=80&w=1080",
-    notes: ["Rose Petals", "Vanilla", "Musk"],
-    description: "A timeless fragrance that captures the essence of romance",
-    price: "$89",
-    match: 95,
+    name: "Top",
+    subtitle: "Intimate intensity",
+    image: "https://drive.google.com/uc?export=download&id=1rozZ7Zc5tQSiG3n68i1NW5o8mBlZu6ml",
+    notes: ["White pear", "Italian bergamot", "Damask rose"],
+    description: "Ideal for daytime wear, for restrained gestures, for those who dominate without announcing it",
+    price: "2 Sprays",
+    match: 100,
   },
   {
     id: 2,
-    name: "Ocean Breeze",
-    subtitle: "Fresh & Calm",
-    image: "https://images.unsplash.com/photo-1559565401-749465c8de19?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxibHVlJTIwb2NlYW4lMjBwZXJmdW1lJTIwYm90dGxlfGVufDF8fHx8MTc3MTY4NDg4OHww&ixlib=rb-4.1.0&q=80&w=1080",
-    notes: ["Sea Salt", "Citrus", "Amber"],
-    description: "Experience the refreshing feeling of a coastal breeze",
-    price: "$75",
-    match: 88,
+    name: "Bottom",
+    subtitle: "Presence in the room",
+    image: "https://drive.google.com/uc?export=download&id=1b0xNi-f9JYoK--yuQ14gFnCcp_ff3p4M",
+    notes: ["Ripe pear", "Warm bergamot", "Full-bodied rose"],
+    description: "Ideal for the evening, exuding sensuality and for those who want to show they are in control",
+    price: "3 Sprays",
+    match: 100,
   },
 ];
 
@@ -31,10 +31,10 @@ export default function PerfumeResults() {
   const [selectedPerfume, setSelectedPerfume] = useState<number | null>(null);
 
   const featuredPerfume = {
-    name: "Signature Scent",
+    name: "Dualitá",
     subtitle: "Your Perfect Match",
-    image: "https://images.unsplash.com/photo-1770301410072-f6ef6dad65b2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBwZXJmdW1lJTIwYm90dGxlJTIwZWxlZ2FudHxlbnwxfHx8fDE3NzE1OTc0ODN8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    match: 98,
+    image: "https://drive.google.com/uc?export=download&id=1u8YmynDSSt9HZqiLbGYtZic-HTzVJBEq",
+    match: 100,
   };
 
   return (
@@ -86,7 +86,7 @@ export default function PerfumeResults() {
 
         {/* Other Recommendations */}
         <div className="mb-4">
-          <h2 className="text-2xl text-gray-800 mb-4 text-center">Other Great Matches</h2>
+          <h2 className="text-2xl text-gray-800 mb-4 text-center">For a complete Dualitá</h2>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
