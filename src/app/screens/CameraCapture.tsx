@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { Camera, Upload, RefreshCw, ArrowRight } from "lucide-react";
+import { Camera, Upload, RefreshCw, ArrowRight, SwitchCamera } from "lucide-react";
 
 export default function CameraCapture() {
   const navigate = useNavigate();
@@ -13,6 +13,7 @@ export default function CameraCapture() {
   const [isCameraActive, setIsCameraActive] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
+  const [facingMode, setFacingMode] = useState<"environment" | "user">("environment");
 
   const stopStream = (s: MediaStream | null) => {
     s?.getTracks().forEach((track) => track.stop());
@@ -41,11 +42,14 @@ export default function CameraCapture() {
       video.addEventListener("loadedmetadata", onReady);
     });
 
-  const startCamera = async () => {
+  const startCamera = async (requestedFacingMode?: "environment" | "user") => {
     setCapturedImage(null);
     setError(null);
     const video = videoRef.current;
     if (!video) return;
+
+    const primary = requestedFacingMode ?? facingMode;
+    const fallback: "environment" | "user" = primary === "environment" ? "user" : "environment";
 
     const tryStart = async (constraints: MediaTrackConstraints) => {
       const mediaStream = await navigator.mediaDevices.getUserMedia({
@@ -76,16 +80,26 @@ export default function CameraCapture() {
     };
 
     try {
-      await tryStart({ facingMode: { ideal: "environment" } });
+      await tryStart({ facingMode: { ideal: primary } });
+      setFacingMode(primary);
     } catch {
-      // Fall back to front camera if back camera is unavailable
+      // Fall back to the other camera if the requested one is unavailable
       try {
-        await tryStart({ facingMode: { ideal: "user" } });
+        await tryStart({ facingMode: { ideal: fallback } });
+        setFacingMode(fallback);
       } catch (err) {
         console.error("Error accessing camera:", err);
         setError("Camera access denied. Please use upload option instead.");
       }
     }
+  };
+
+  const switchCamera = async () => {
+    const next: "environment" | "user" = facingMode === "environment" ? "user" : "environment";
+    stopStream(stream);
+    setStream(null);
+    setIsCameraActive(false);
+    await startCamera(next);
   };
 
   const capturePhoto = () => {
@@ -157,7 +171,14 @@ export default function CameraCapture() {
               className="absolute inset-0 w-full h-full object-cover"
             />
           ) : !isCameraActive ? (
-            <div className="absolute inset-0 flex flex-col items-center justify-center px-6">
+            <div
+              className="absolute inset-0 flex flex-col items-center justify-center px-6 cursor-pointer"
+              onClick={startCamera}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") startCamera(); }}
+              role="button"
+              tabIndex={0}
+              aria-label="Start camera"
+            >
               <div className="w-32 h-32 rounded-full bg-white/10 flex items-center justify-center mb-4">
                 <Camera className="w-16 h-16 text-white" />
               </div>
@@ -167,6 +188,17 @@ export default function CameraCapture() {
               )}
             </div>
           ) : null}
+
+          {/* Switch camera button – shown while camera is active */}
+          {isCameraActive && !capturedImage && (
+            <button
+              onClick={switchCamera}
+              className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/40 flex items-center justify-center text-white hover:bg-black/60 transition-colors"
+              aria-label="Switch camera"
+            >
+              <SwitchCamera className="w-5 h-5" />
+            </button>
+          )}
 
           {/* Camera frame overlay */}
           <div className="absolute inset-0 border-4 border-white/30 rounded-3xl pointer-events-none">
