@@ -5,6 +5,21 @@
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Photo Capture Website</title>
+      <script>
+        // Restore the path redirected by 404.html (GitHub Pages SPA fallback).
+        // %BASE_URL% is replaced by Vite at build time with the configured base path.
+        (function () {
+          var p = new URLSearchParams(window.location.search).get('p');
+          if (p) {
+            var base = '%BASE_URL%';
+            window.history.replaceState(
+              null,
+              '',
+              base + p.replace(/^\//, '') + window.location.hash
+            );
+          }
+        })();
+      </script>
     </head>
 
     <body>

@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script>
+      // GitHub Pages SPA fallback: redirect 404s back to index.html
+      // preserving the path as a query parameter so the SPA can restore it.
+      // Must match the base path in vite.config.ts (base: '/Prada-Dualit-/').
+      var base = '/Prada-Dualit-/';
+      var path = window.location.pathname;
+      var search = window.location.search;
+      var hash = window.location.hash;
+      var relative = path.slice(base.length - 1) || '/';
+      var redirectUrl =
+        window.location.origin +
+        base +
+        '?p=' +
+        encodeURIComponent(relative + search + hash);
+      window.location.replace(redirectUrl);
+    </script>
+  </head>
+  <body></body>
+</html>
