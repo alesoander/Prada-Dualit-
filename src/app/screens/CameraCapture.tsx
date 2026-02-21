@@ -1,21 +1,36 @@
-import { useRef, useState } from "react";
-import { useNavigate } from "react-router";
-import { Camera, Upload, Image } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
+import { Camera, Upload, RefreshCw } from "lucide-react";
 
 export default function CameraCapture() {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const streamRef = useRef<MediaStream | null>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [isCameraActive, setIsCameraActive] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
-  const navigate = useNavigate();
+
+  const stopStream = (s: MediaStream | null) => {
+    s?.getTracks().forEach((track) => track.stop());
+  };
+
+  useEffect(() => {
+    streamRef.current = stream;
+  }, [stream]);
+
+  useEffect(() => {
+    return () => {
+      stopStream(streamRef.current);
+    };
+  }, []);
 
   const startCamera = async () => {
+    setCapturedImage(null);
+    setError(null);
     try {
-      setError(null);
       const mediaStream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: "user" },
+        video: { facingMode: "environment" },
         audio: false,
       });
       if (videoRef.current) {
@@ -23,17 +38,44 @@ export default function CameraCapture() {
       }
       setStream(mediaStream);
       setIsCameraActive(true);
-    } catch (error) {
-      console.error("Error accessing camera:", error);
-      setError("Camera access denied. Please use upload option instead.");
+    } catch {
+      // Fall back to front camera if back camera is unavailable
+      try {
+        const mediaStream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "user" },
+          audio: false,
+        });
+        if (videoRef.current) {
+          videoRef.current.srcObject = mediaStream;
+        }
+        setStream(mediaStream);
+        setIsCameraActive(true);
+      } catch (err) {
+        console.error("Error accessing camera:", err);
+        setError("Camera access denied. Please use upload option instead.");
+      }
     }
   };
 
   const capturePhoto = () => {
-    if (stream) {
-      stream.getTracks().forEach((track) => track.stop());
-    }
-    navigate("/analyzing");
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    if (!video || !canvas) return;
+
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext("2d")?.drawImage(video, 0, 0);
+    const dataUrl = canvas.toDataURL("image/jpeg");
+
+    stopStream(stream);
+    setStream(null);
+    setIsCameraActive(false);
+    setCapturedImage(dataUrl);
+  };
+
+  const retake = () => {
+    setCapturedImage(null);
+    startCamera();
   };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,10 +83,10 @@ export default function CameraCapture() {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
+        stopStream(stream);
+        setStream(null);
+        setIsCameraActive(false);
         setCapturedImage(e.target?.result as string);
-        setTimeout(() => {
-          navigate("/analyzing");
-        }, 500);
       };
       reader.readAsDataURL(file);
     }
@@ -96,12 +138,15 @@ export default function CameraCapture() {
           </div>
         </div>
 
+        {/* Hidden canvas for frame grab */}
+        <canvas ref={canvasRef} className="hidden" />
+
         {/* Hidden file input */}
         <input
           ref={fileInputRef}
           type="file"
           accept="image/*"
-          capture="user"
+          capture="environment"
           onChange={handleFileUpload}
           className="hidden"
         />
@@ -130,6 +175,14 @@ export default function CameraCapture() {
           >
             <Camera className="w-6 h-6" />
             Capture Photo
+          </button>
+        ) : capturedImage ? (
+          <button
+            onClick={retake}
+            className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full text-lg shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
+          >
+            <RefreshCw className="w-6 h-6" />
+            Retake
           </button>
         ) : null}
       </div>
