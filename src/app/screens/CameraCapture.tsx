@@ -8,6 +8,7 @@ export default function CameraCapture() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
+  const blackStreamTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [isCameraActive, setIsCameraActive] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -23,37 +24,63 @@ export default function CameraCapture() {
 
   useEffect(() => {
     return () => {
+      if (blackStreamTimerRef.current !== null) {
+        clearTimeout(blackStreamTimerRef.current);
+      }
       stopStream(streamRef.current);
     };
   }, []);
 
+  const attachStream = (video: HTMLVideoElement, mediaStream: MediaStream): Promise<void> =>
+    new Promise((resolve, reject) => {
+      video.srcObject = mediaStream;
+      const onReady = () => {
+        video.removeEventListener("loadedmetadata", onReady);
+        video.play().then(resolve).catch(reject);
+      };
+      video.addEventListener("loadedmetadata", onReady);
+    });
+
   const startCamera = async () => {
     setCapturedImage(null);
     setError(null);
-    try {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const tryStart = async (constraints: MediaTrackConstraints) => {
       const mediaStream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: { ideal: "environment" }, width: { ideal: 1280 }, height: { ideal: 720 } },
+        video: constraints,
         audio: false,
       });
-      if (videoRef.current) {
-        videoRef.current.srcObject = mediaStream;
-        await videoRef.current.play();
-      }
+      await attachStream(video, mediaStream);
       setStream(mediaStream);
       setIsCameraActive(true);
+
+      // Detect black-stream: check videoWidth a short time after play starts.
+      // Guard against stale callbacks by verifying the track is still live.
+      if (blackStreamTimerRef.current !== null) {
+        clearTimeout(blackStreamTimerRef.current);
+      }
+      blackStreamTimerRef.current = setTimeout(() => {
+        blackStreamTimerRef.current = null;
+        const track = mediaStream.getVideoTracks()[0];
+        if (track && track.readyState === "live" && video.videoWidth === 0) {
+          stopStream(mediaStream);
+          setStream(null);
+          setIsCameraActive(false);
+          setError(
+            "Camera started but no video frames were received. Try switching camera or use upload."
+          );
+        }
+      }, 2000);
+    };
+
+    try {
+      await tryStart({ facingMode: { ideal: "environment" } });
     } catch {
       // Fall back to front camera if back camera is unavailable
       try {
-        const mediaStream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: { ideal: "user" } },
-          audio: false,
-        });
-        if (videoRef.current) {
-          videoRef.current.srcObject = mediaStream;
-          await videoRef.current.play();
-        }
-        setStream(mediaStream);
-        setIsCameraActive(true);
+        await tryStart({ facingMode: { ideal: "user" } });
       } catch (err) {
         console.error("Error accessing camera:", err);
         setError("Camera access denied. Please use upload option instead.");
@@ -115,7 +142,21 @@ export default function CameraCapture() {
         </h1>
 
         <div className="relative w-full aspect-[3/4] bg-black rounded-3xl overflow-hidden shadow-2xl mb-8">
-          {!isCameraActive && !capturedImage ? (
+          {/* Video is always mounted so videoRef is available before isCameraActive is set */}
+          <video
+            ref={videoRef}
+            autoPlay
+            playsInline
+            muted
+            className={`absolute inset-0 w-full h-full object-cover${isCameraActive && !capturedImage ? "" : " hidden"}`}
+          />
+          {capturedImage ? (
+            <img
+              src={capturedImage}
+              alt="Captured"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          ) : !isCameraActive ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center px-6">
               <div className="w-32 h-32 rounded-full bg-white/10 flex items-center justify-center mb-4">
                 <Camera className="w-16 h-16 text-white" />
@@ -125,21 +166,7 @@ export default function CameraCapture() {
                 <p className="text-yellow-300 text-sm mt-4 text-center">{error}</p>
               )}
             </div>
-          ) : capturedImage ? (
-            <img
-              src={capturedImage}
-              alt="Captured"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-          ) : (
-            <video
-              ref={videoRef}
-              autoPlay
-              playsInline
-              muted
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-          )}
+          ) : null}
 
           {/* Camera frame overlay */}
           <div className="absolute inset-0 border-4 border-white/30 rounded-3xl pointer-events-none">
