@@ -6,7 +6,7 @@ import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 const perfumes = [
   {
     id: 1,
-    name: "Top",
+    name: "Light",
     subtitle: "Intimate intensity",
     image: "https://lh3.googleusercontent.com/d/1rozZ7Zc5tQSiG3n68i1NW5o8mBlZu6ml",
     notes: ["White pear", "Italian bergamot", "Damask rose"],
@@ -16,7 +16,7 @@ const perfumes = [
   },
   {
     id: 2,
-    name: "Bottom",
+    name: "Intense",
     subtitle: "Presence in the room",
     image: "https://lh3.googleusercontent.com/d/1b0xNi-f9JYoK--yuQ14gFnCcp_ff3p4M",
     notes: ["Ripe pear", "Warm bergamot", "Full-bodied rose"],
