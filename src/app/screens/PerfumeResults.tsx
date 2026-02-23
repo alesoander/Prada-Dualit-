@@ -8,7 +8,7 @@ const perfumes = [
     id: 1,
     name: "Light",
     subtitle: "Intimate intensity",
-    image: "https://lh3.googleusercontent.com/d/1rozZ7Zc5tQSiG3n68i1NW5o8mBlZu6ml",
+    image: "https://lh3.googleusercontent.com/d/1GxDtvTRNKvgzsBXRVzkrY_zB4-eNAAGy",
     notes: ["White pear", "Italian bergamot", "Damask rose"],
     description: "Ideal for daytime wear, for restrained gestures, for those who dominate without announcing it",
     price: "2 Sprays",
@@ -18,7 +18,7 @@ const perfumes = [
     id: 2,
     name: "Intense",
     subtitle: "Presence in the room",
-    image: "https://lh3.googleusercontent.com/d/1b0xNi-f9JYoK--yuQ14gFnCcp_ff3p4M",
+    image: "https://lh3.googleusercontent.com/d/1roycXSRyKKMnEzffpfv2OsTWKXhDwX6g",
     notes: ["Ripe pear", "Warm bergamot", "Full-bodied rose"],
     description: "Ideal for the evening, exuding sensuality and for those who want to show they are in control",
     price: "3 Sprays",
@@ -33,7 +33,7 @@ export default function PerfumeResults() {
   const featuredPerfume = {
     name: "Dualitá",
     subtitle: "Your Perfect Match",
-    image: "https://lh3.googleusercontent.com/d/1u8YmynDSSt9HZqiLbGYtZic-HTzVJBEq",
+    image: "https://lh3.googleusercontent.com/d/1KsG_-bw2qjiji5skAlNQtfzUNW_NWrDh",
     match: 100,
   };
 
