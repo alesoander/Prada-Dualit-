@@ -63,17 +63,16 @@ export default function PerfumeResults() {
             <h2 className="text-2xl text-gray-800">Best Match</h2>
           </div>
           
-          <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
-            <div className="relative h-80">
-              <ImageWithFallback
-                src={featuredPerfume.image}
-                alt={featuredPerfume.name}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute top-4 right-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full shadow-lg">
-                {featuredPerfume.match}% Match
-              </div>
-            </div>
+         <div className="relative w-full aspect-[896/1263]">
+  <ImageWithFallback
+    src={featuredPerfume.image}
+    alt={featuredPerfume.name}
+    className="w-full h-full object-contain"
+  />
+  <div className="absolute top-4 right-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full shadow-lg">
+    {featuredPerfume.match}% Match
+  </div>
+</div>
             <div className="p-6">
               <h3 className="text-2xl text-gray-800 mb-1">{featuredPerfume.name}</h3>
               <p className="text-purple-600 mb-4">{featuredPerfume.subtitle}</p>
