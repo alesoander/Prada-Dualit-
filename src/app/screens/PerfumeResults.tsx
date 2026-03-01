@@ -34,7 +34,7 @@ export default function PerfumeResults() {
     name: "Dualitá",
     subtitle: "Your Perfect Match",
     image: "https://lh3.googleusercontent.com/d/1sWIfkrklq7Sntsq4Nbcgv8aUAfh7q0lR",
-    match: 100,
+    match: 99,
   };
 
   return (
