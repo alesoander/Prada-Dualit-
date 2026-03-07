@@ -2,8 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { ArrowLeft, Heart, Share2, Sparkles } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import { useState } from "react";
+import { useMemo, useState } from "react";
 
-const perfumes = [
+const basePerfumes = [
   {
     id: 1,
     name: "Light",
@@ -37,6 +39,25 @@ export default function PerfumeResults() {
     match: 100,
   };
 
+// randInt HERE 
+  function randInt(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  // useMemo HERE
+  const perfumes = useMemo(() => {
+    const sprays1 = randInt(1, 6);
+    const sprays2 = randInt(1, 7 - sprays1);
+
+    return basePerfumes.map((p) => {
+      const sprays = p.id === 1 ? sprays1 : sprays2;
+      return {
+        ...p,
+        price: `${sprays} Spray${sprays === 1 ? "" : "s"}`,
+      };
+    });
+  }, []);
+  
   return (
     <div className="min-h-screen bg-gradient-to-b from-violet-50 to-pink-50">
       {/* Header */}
