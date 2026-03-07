@@ -187,7 +187,7 @@ export default function PerfumeResults() {
       </div>
     </div>
   </div>
-</div>
+
         </div>
 
         {/* Other Recommendations */}
