@@ -77,20 +77,30 @@ export default function CameraCapture() {
           );
         }
       }, 2000);
-    };
+    }
+      
 
-   try {
+try {
+  // Try strict first
   await tryStart({ facingMode: { exact: primary } as any });
+  setFacingMode(primary);
 } catch {
-  await tryStart({ facingMode: { ideal: primary } });
+  try {
+    // Then try "ideal"
+    await tryStart({ facingMode: { ideal: primary } });
+    setFacingMode(primary);
+  } catch {
+    // Fall back to the other camera
+    try {
+      await tryStart({ facingMode: { ideal: fallback } });
+      setFacingMode(fallback);
+    } catch (err) {
+      console.error("Error accessing camera:", err);
+      setError("Camera access denied. Please use upload option instead.");
+    }
+  }
 }
-      try {
-        await tryStart({ facingMode: { ideal: fallback } });
-        setFacingMode(fallback);
-      } catch (err) {
-        console.error("Error accessing camera:", err);
-        setError("Camera access denied. Please use upload option instead.");
-      }
+    
     }
   };
 
