@@ -1,8 +1,6 @@
-import { useState } from "react";
 import { useNavigate } from "react-router";
 import { ArrowLeft, Heart, Share2, Sparkles } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
-import { useState } from "react";
 import { useMemo, useState } from "react";
 
 const basePerfumes = [
@@ -45,34 +43,33 @@ export default function PerfumeResults() {
   }
 
   // useMemo HERE
+  function randInt(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
   const perfumes = useMemo(() => {
+    // sprays: each >= 1, sum <= 7
     const sprays1 = randInt(1, 6);
     const sprays2 = randInt(1, 7 - sprays1);
+
+    // descriptions: must be different between id 1 and id 2
     const applicationDescriptions = [
-    "Apply on the neck (very warm, projects well).",
-    "Apply on the wrists (the classic pulse point).",
-    "Apply on the collarbones (the scent rises naturally).",
-  ];
+      "Apply on the neck (very warm, projects well).",
+      "Apply on the wrists (the classic pulse point).",
+      "Apply on the collarbones (the scent rises naturally).",
+    ];
 
- const shuffled = [...applicationDescriptions].sort(() => Math.random() - 0.5);
-  const desc1 = shuffled[0];
-  const desc2 = shuffled[1];
+    const shuffled = [...applicationDescriptions].sort(() => Math.random() - 0.5);
+    const desc1 = shuffled[0];
+    const desc2 = shuffled[1];
 
-  return basePerfumes.map((p) => {
-    const sprays = p.id === 1 ? sprays1 : sprays2;
-    const description = p.id === 1 ? desc1 : desc2;
-
-    return {
-      ...p,
-      description,
-      price: `${sprays} Spray${sprays === 1 ? "" : "s"}`,
-    };
-
-    
     return basePerfumes.map((p) => {
       const sprays = p.id === 1 ? sprays1 : sprays2;
+      const description = p.id === 1 ? desc1 : desc2;
+
       return {
         ...p,
+        description,
         price: `${sprays} Spray${sprays === 1 ? "" : "s"}`,
       };
     });
