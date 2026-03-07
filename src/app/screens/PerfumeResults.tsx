@@ -40,7 +40,7 @@ export default function PerfumeResults() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-violet-50 to-pink-50">
       {/* Header */}
-      <div className="sticky top-0 bg-white/90 backdrop-blur-md shadow-sm z-10 p-4">
+      <div className="sticky top-0 bg-white/80 backdrop-blur-md shadow-sm z-10 p-4">
         <div className="w-full max-w-md mx-auto flex items-center justify-between">
           <button
             onClick={() => navigate("/context")}
@@ -63,11 +63,13 @@ export default function PerfumeResults() {
             <h2 className="text-2xl text-gray-800">Best Match</h2>
           </div>
           
+          {/* White container with rounded corners (keeps 896/1263 aspect) */}
+          <div className="bg-white rounded-3xl shadow-lg overflow-hidden">
          <div className="relative w-full aspect-[896/1263]">
   <ImageWithFallback
     src={featuredPerfume.image}
     alt={featuredPerfume.name}
-    className="w-full h-full object-contain"
+    className="w-full h-full object-cover"
   />
   <div className="absolute top-4 right-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full shadow-lg">
     {featuredPerfume.match}% Match
