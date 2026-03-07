@@ -109,7 +109,7 @@ export default function PerfumeResults() {
                   {perfume.match}%
                 </div>
               </div
-              </div>
+              
               
               <div className="p-4">
                 <h3 className="text-lg text-gray-800 mb-1">{perfume.name}</h3>
