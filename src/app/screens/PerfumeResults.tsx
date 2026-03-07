@@ -96,49 +96,45 @@ export default function PerfumeResults() {
             <Sparkles className="w-5 h-5 text-purple-600" />
             <h2 className="text-2xl text-gray-800">Best Match</h2>
           </div>
-          
-          {/* White container with rounded corners (keeps 896/1263 aspect) */}
-          <div className="bg-white rounded-3xl shadow-lg overflow-hidden">
-         <div className="relative w-full aspect-[896/1263]">
-  <ImageWithFallback
-    src={featuredPerfume.image}
-    alt={featuredPerfume.name}
-    className="w-full h-full object-cover"
-  />
-  <div className="absolute top-4 right-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full shadow-lg">
-    {featuredPerfume.match}% Match
+      
+         {/* White container (NO overflow-hidden here) */}
+<div className="bg-white rounded-3xl shadow-lg">
+  {/* Only the image area clips to rounded corners */}
+  <div className="overflow-hidden rounded-3xl">
+    <div className="relative w-full aspect-[896/1263]">
+      <ImageWithFallback
+        src={featuredPerfume.image}
+        alt={featuredPerfume.name}
+        className="w-full h-full object-cover"
+      />
+      <div className="absolute top-4 right-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full shadow-lg">
+        {featuredPerfume.match}% Match
+      </div>
+    </div>
   </div>
-</div>
-            <div className="p-6">
-              <h3 className="text-2xl text-gray-800 mb-1">{featuredPerfume.name}</h3>
-              <p className="text-purple-600 mb-4">{featuredPerfume.subtitle}</p>
 
-                      {/* View Details + hover summary */}
-              <div className="relative group">
-                <button
-                  type="button"
-                  className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2"
-                >
-                  View Details
-                </button>
+  <div className="p-6">
+    <h3 className="text-2xl text-gray-800 mb-1">{featuredPerfume.name}</h3>
+    <p className="text-purple-600 mb-4">{featuredPerfume.subtitle}</p>
+
+    {/* Popover is now NOT clipped */}
+    <div className="relative group">
+      <button
+        type="button"
+        className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all"
+      >
+        View Details
+      </button>
 
                 {/* Hover card */}
-                <div
-                  className="
-                    pointer-events-none
-                    absolute left-1/2 top-full z-20 mt-3 w-[min(92vw,420px)] -translate-x-1/2
-                    opacity-100 translate-y-1 scale-[0.98]
-                    transition-all duration-200
-                    group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100
-                  "
-                >
-                  <div className="rounded-2xl border border-purple-100 bg-white/95 backdrop-blur shadow-2xl p-4 text-left">
-                    <p className="text-xs uppercase tracking-wider text-purple-700/80">
-                      Prada Dualitá
-                    </p>
-                    <h4 className="text-lg text-gray-900 leading-snug">
-                      Your Time, Your Intensity
-                    </h4>
+                  <div className="absolute left-1/2 top-full z-[9999] mt-3 w-[min(92vw,420px)] -translate-x-1/2 opacity-100">
+        <div className="rounded-2xl border border-purple-100 bg-white shadow-2xl p-4 text-left">
+          <p className="text-xs uppercase tracking-wider text-purple-700/80">
+            Prada Dualitá
+          </p>
+          <h4 className="text-lg text-gray-900 leading-snug">
+            Your Time, Your Intensity
+          </h4>
 
                     <p className="mt-2 text-sm text-gray-700">
                       A contemporary luxury fragrance celebrating duality—two complementary
