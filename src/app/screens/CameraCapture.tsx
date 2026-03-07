@@ -149,7 +149,7 @@ export default function CameraCapture() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-pink-50 to-purple-50 flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-prada-warm-50 flex flex-col items-center justify-center p-4">
       <div className="w-full max-w-md">
         <h1 className="text-center mb-8 text-3xl text-gray-800">
           Capture Your Moment
@@ -226,14 +226,14 @@ export default function CameraCapture() {
           <div className="space-y-3">
             <button
               onClick={startCamera}
-              className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full text-lg shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
+              className="w-full py-4 bg-prada-gold text-prada-ink rounded-full text-lg shadow-prada hover:bg-prada-wine hover:text-white transition-all flex items-center justify-center gap-2"
             >
               <Camera className="w-6 h-6" />
               Start Camera
             </button>
             <button
               onClick={triggerFileUpload}
-              className="w-full py-4 bg-white text-purple-600 border-2 border-purple-500 rounded-full text-lg shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
+              className="w-full py-4 bg-white text-prada-ink border-2 border-prada-gold rounded-full text-lg shadow-prada hover:bg-prada-warm-100 transition-all flex items-center justify-center gap-2"
             >
               <Upload className="w-6 h-6" />
               Upload Photo
@@ -242,7 +242,7 @@ export default function CameraCapture() {
         ) : isCameraActive ? (
           <button
             onClick={capturePhoto}
-            className="w-full py-4 bg-white text-purple-600 rounded-full text-lg shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
+            className="w-full py-4 bg-white text-prada-ink border-2 border-prada-gold rounded-full text-lg shadow-prada hover:bg-prada-warm-100 transition-all flex items-center justify-center gap-2"
           >
             <Camera className="w-6 h-6" />
             Capture Photo
@@ -251,14 +251,14 @@ export default function CameraCapture() {
           <div className="space-y-3">
             <button
               onClick={continueToAnalyzing}
-              className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full text-lg shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
+              className="w-full py-4 bg-prada-gold text-prada-ink rounded-full text-lg shadow-prada hover:bg-prada-wine hover:text-white transition-all flex items-center justify-center gap-2"
             >
               <ArrowRight className="w-6 h-6" />
               Continue
             </button>
             <button
               onClick={retake}
-              className="w-full py-4 bg-white text-purple-600 border-2 border-purple-500 rounded-full text-lg shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
+              className="w-full py-4 bg-white text-prada-ink border-2 border-prada-gold rounded-full text-lg shadow-prada hover:bg-prada-warm-100 transition-all flex items-center justify-center gap-2"
             >
               <RefreshCw className="w-6 h-6" />
               Retake

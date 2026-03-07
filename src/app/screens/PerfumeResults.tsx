@@ -72,7 +72,7 @@ export default function PerfumeResults() {
   }, []);
   
   return (
-    <div className="min-h-screen bg-gradient-to-b from-violet-50 to-pink-50">
+    <div className="min-h-screen bg-prada-warm-50">
       {/* Header */}
       <div className="sticky top-0 bg-white/80 backdrop-blur-md shadow-sm z-10 p-4">
         <div className="w-full max-w-md mx-auto flex items-center justify-between">
@@ -93,7 +93,7 @@ export default function PerfumeResults() {
         {/* Featured Perfume */}
         <div className="mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Sparkles className="w-5 h-5 text-purple-600" />
+            <Sparkles className="w-5 h-5 text-prada-gold" />
             <h2 className="text-2xl text-gray-800">Best Match</h2>
           </div>
       
@@ -107,7 +107,7 @@ export default function PerfumeResults() {
         alt={featuredPerfume.name}
         className="w-full h-full object-cover"
       />
-      <div className="absolute top-4 right-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full shadow-lg">
+      <div className="absolute top-4 right-4 bg-prada-gold text-prada-ink px-4 py-2 rounded-full shadow-prada">
         {featuredPerfume.match}% Match
       </div>
     </div>
@@ -115,13 +115,13 @@ export default function PerfumeResults() {
 
   <div className="p-6">
     <h3 className="text-2xl text-gray-800 mb-1">{featuredPerfume.name}</h3>
-    <p className="text-purple-600 mb-4">{featuredPerfume.subtitle}</p>
+    <p className="text-prada-gold mb-4">{featuredPerfume.subtitle}</p>
 
     {/* Popover is now NOT clipped */}
     <div className="relative group">
       <button
         type="button"
-        className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all"
+        className="w-full py-3 bg-prada-gold text-prada-ink rounded-full shadow-prada hover:bg-prada-wine hover:text-white transition-all"
       >
         View Details
       </button>
@@ -136,8 +136,8 @@ export default function PerfumeResults() {
                 pointer-events-auto
               "
             >
-        <div className="rounded-2xl border border-purple-100 bg-white shadow-2xl p-4 text-left">
-          <p className="text-xs uppercase tracking-wider text-purple-700/80">
+        <div className="rounded-2xl border border-prada-peach-100 bg-white shadow-2xl p-4 text-left">
+          <p className="text-xs uppercase tracking-wider text-prada-gold">
             Prada Dualitá
           </p>
           <h4 className="text-lg text-gray-900 leading-snug">
@@ -151,8 +151,8 @@ export default function PerfumeResults() {
                     </p>
 
                     <div className="mt-3 grid gap-2">
-                      <div className="rounded-xl bg-purple-50/70 p-3">
-                        <p className="text-xs font-semibold text-purple-800">
+                      <div className="rounded-xl bg-prada-peach-50/70 p-3">
+                        <p className="text-xs font-semibold text-prada-ink">
                           Light Intensity — Intimate Elegance
                         </p>
                         <p className="text-sm text-gray-700">
@@ -162,8 +162,8 @@ export default function PerfumeResults() {
                         </p>
                       </div>
 
-                      <div className="rounded-xl bg-pink-50/70 p-3">
-                        <p className="text-xs font-semibold text-pink-800">
+                      <div className="rounded-xl bg-prada-peach-100/70 p-3">
+                        <p className="text-xs font-semibold text-prada-ink">
                           Intense — Magnetic Presence
                         </p>
                         <p className="text-sm text-gray-700">
@@ -200,7 +200,7 @@ export default function PerfumeResults() {
             <div
               key={perfume.id}
               className={`bg-white rounded-2xl shadow-lg overflow-hidden transition-all cursor-pointer ${
-                selectedPerfume === perfume.id ? "ring-4 ring-purple-500 scale-105" : "hover:shadow-xl"
+                selectedPerfume === perfume.id ? "ring-4 ring-prada-gold scale-105" : "hover:shadow-xl"
               }`}
               onClick={() => setSelectedPerfume(perfume.id)}
             >
@@ -210,7 +210,7 @@ export default function PerfumeResults() {
                   alt={perfume.name}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm text-purple-600 px-3 py-1 rounded-full text-sm shadow">
+                <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm text-prada-gold px-3 py-1 rounded-full text-sm shadow">
                   {perfume.match}%
                 </div>
               </div>
@@ -226,7 +226,7 @@ export default function PerfumeResults() {
                     {perfume.notes.map((note, idx) => (
                       <span
                         key={idx}
-                        className="text-xs bg-purple-50 text-purple-700 px-2 py-1 rounded-full"
+                        className="text-xs bg-prada-peach-50 text-prada-ink px-2 py-1 rounded-full"
                       >
                         {note}
                       </span>
@@ -234,8 +234,8 @@ export default function PerfumeResults() {
                   </div>
                 </div>
 
-               <div className="mb-3 rounded-xl bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-100 p-3">
-                  <p className="text-[11px] uppercase tracking-wider text-purple-700/80 mb-1">
+               <div className="mb-3 rounded-xl bg-prada-warm-100 border border-prada-peach-100 p-3">
+                  <p className="text-[11px] uppercase tracking-wider text-prada-gold mb-1">
                     How to apply
                   </p>
                   <p className="text-sm text-gray-700 font-medium">
@@ -244,9 +244,9 @@ export default function PerfumeResults() {
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span className="text-lg text-purple-600">{perfume.price}</span>
+                  <span className="text-lg text-prada-gold">{perfume.price}</span>
                   <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                    <Heart className="w-5 h-5 text-pink-500" />
+                    <Heart className="w-5 h-5 text-prada-gold" />
                   </button>
                 </div>
               </div>
@@ -258,7 +258,7 @@ export default function PerfumeResults() {
         {/* Start Over Button */}
         <button
           onClick={() => navigate("/")}
-          className="w-full mt-8 py-4 bg-white text-purple-600 border-2 border-purple-500 rounded-full text-lg shadow-lg hover:shadow-xl transition-all"
+          className="w-full mt-8 py-4 bg-white text-prada-ink border-2 border-prada-gold rounded-full text-lg shadow-prada hover:bg-prada-warm-100 transition-all"
         >
           Start New Search
         </button>

@@ -5,7 +5,7 @@ import { Smile, Heart, Zap, Sun, Shield } from "lucide-react";
 const moods = [
   { id: "confident", label: "Confident", icon: Zap, color: "from-orange-400 to-red-500" },
   { id: "calm", label: "Calm", icon: Heart, color: "from-blue-400 to-cyan-500" },
-  { id: "bold", label: "Bold", icon: Shield, color: "from-purple-500 to-pink-600" },
+  { id: "bold", label: "Bold", icon: Shield, color: "from-prada-gold to-prada-wine" },
   { id: "light", label: "Light", icon: Sun, color: "from-yellow-400 to-orange-400" },
   { id: "protected", label: "Protected", icon: Shield, color: "from-green-400 to-teal-500" },
 ];
@@ -22,10 +22,10 @@ export default function MoodSelection() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-purple-50 flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen bg-prada-warm-50 flex flex-col items-center justify-center p-6">
       <div className="w-full max-w-md">
         <div className="text-center mb-12">
-          <Smile className="w-16 h-16 mx-auto mb-4 text-purple-600" />
+          <Smile className="w-16 h-16 mx-auto mb-4 text-prada-gold" />
           <h1 className="text-3xl text-gray-800 mb-2">
             How Are You Feeling?
           </h1>
