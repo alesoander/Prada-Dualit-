@@ -4,7 +4,6 @@ import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { useMemo, useState } from "react";
 
 
-const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 const basePerfumes = [
   {
     id: 1,
@@ -31,6 +30,7 @@ const basePerfumes = [
 export default function PerfumeResults() {
   const navigate = useNavigate();
   const [selectedPerfume, setSelectedPerfume] = useState<number | null>(null);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
   const featuredPerfume = {
     name: "Dualitá",
