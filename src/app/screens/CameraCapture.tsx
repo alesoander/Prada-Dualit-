@@ -79,11 +79,11 @@ export default function CameraCapture() {
       }, 2000);
     };
 
-    try {
-      await tryStart({ facingMode: { ideal: primary } });
-      setFacingMode(primary);
-    } catch {
-      // Fall back to the other camera if the requested one is unavailable
+   try {
+  await tryStart({ facingMode: { exact: primary } as any });
+} catch {
+  await tryStart({ facingMode: { ideal: primary } });
+}
       try {
         await tryStart({ facingMode: { ideal: fallback } });
         setFacingMode(fallback);
