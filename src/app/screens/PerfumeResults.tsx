@@ -48,7 +48,27 @@ export default function PerfumeResults() {
   const perfumes = useMemo(() => {
     const sprays1 = randInt(1, 6);
     const sprays2 = randInt(1, 7 - sprays1);
+    const applicationDescriptions = [
+    "Apply on the neck (very warm, projects well).",
+    "Apply on the wrists (the classic pulse point).",
+    "Apply on the collarbones (the scent rises naturally).",
+  ];
 
+ const shuffled = [...applicationDescriptions].sort(() => Math.random() - 0.5);
+  const desc1 = shuffled[0];
+  const desc2 = shuffled[1];
+
+  return basePerfumes.map((p) => {
+    const sprays = p.id === 1 ? sprays1 : sprays2;
+    const description = p.id === 1 ? desc1 : desc2;
+
+    return {
+      ...p,
+      description,
+      price: `${sprays} Spray${sprays === 1 ? "" : "s"}`,
+    };
+
+    
     return basePerfumes.map((p) => {
       const sprays = p.id === 1 ? sprays1 : sprays2;
       return {
@@ -150,9 +170,14 @@ export default function PerfumeResults() {
                   </div>
                 </div>
 
-                <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-                  {perfume.description}
-                </p>
+               <div className="mb-3 rounded-xl bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-100 p-3">
+                  <p className="text-[11px] uppercase tracking-wider text-purple-700/80 mb-1">
+                    How to apply
+                  </p>
+                  <p className="text-sm text-gray-700 font-medium">
+                    {perfume.description}
+                  </p>
+                </div>
 
                 <div className="flex items-center justify-between">
                   <span className="text-lg text-purple-600">{perfume.price}</span>
