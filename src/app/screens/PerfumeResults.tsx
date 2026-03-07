@@ -33,14 +33,14 @@ export default function PerfumeResults() {
   const featuredPerfume = {
     name: "Dualitá",
     subtitle: "Your Perfect Match",
-    image: "https://lh3.googleusercontent.com/d/1sWIfkrklq7Sntsq4Nbcgv8aUAfh7q0lR",
-    match: 99,
+    image: "https://lh3.googleusercontent.com/d/1u8YmynDSSt9HZqiLbGYtZic-HTzVJBEq",
+    match: 98,
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-violet-50 to-pink-50">
       {/* Header */}
-      <div className="sticky top-0 bg-white/80 backdrop-blur-md shadow-sm z-10 p-4">
+      <div className="sticky top-0 bg-white/90 backdrop-blur-md shadow-sm z-10 p-4">
         <div className="w-full max-w-md mx-auto flex items-center justify-between">
           <button
             onClick={() => navigate("/context")}
