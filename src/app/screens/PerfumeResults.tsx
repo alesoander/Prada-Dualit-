@@ -116,11 +116,78 @@ export default function PerfumeResults() {
             <div className="p-6">
               <h3 className="text-2xl text-gray-800 mb-1">{featuredPerfume.name}</h3>
               <p className="text-purple-600 mb-4">{featuredPerfume.subtitle}</p>
-              <button className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all">
-                View Details
-              </button>
-            </div>
-          </div>
+
+              {/* View Details + hover summary */}
+<div className="relative group">
+  <button
+    type="button"
+    className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2"
+  >
+    View Details
+  </button>
+
+  {/* Hover card */}
+  <div
+    className="
+      pointer-events-none
+      absolute left-1/2 top-full z-20 mt-3 w-[min(92vw,420px)] -translate-x-1/2
+      opacity-0 translate-y-1 scale-[0.98]
+      transition-all duration-200
+      group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100
+    "
+  >
+    <div className="rounded-2xl border border-purple-100 bg-white/95 backdrop-blur shadow-2xl p-4 text-left">
+      {/* title */}
+      <p className="text-xs uppercase tracking-wider text-purple-700/80">
+        Prada Dualitá
+      </p>
+      <h4 className="text-lg text-gray-900 leading-snug">
+        Your Time, Your Intensity
+      </h4>
+
+      {/* summarized identity */}
+      <p className="mt-2 text-sm text-gray-700">
+        A contemporary luxury fragrance celebrating duality—two complementary
+        intensities in one iconic hourglass bottle, crafted with recycled
+        materials and refined rosé metallic details.
+      </p>
+
+      {/* 2 intensities summary */}
+      <div className="mt-3 grid gap-2">
+        <div className="rounded-xl bg-purple-50/70 p-3">
+          <p className="text-xs font-semibold text-purple-800">
+            Light Intensity — Intimate Elegance
+          </p>
+          <p className="text-sm text-gray-700">
+            White pear + Italian bergamot over Damask rose &amp; orange blossom,
+            finishing in white musk and cashmere wood—perfect for daytime and
+            quiet confidence.
+          </p>
+        </div>
+
+        <div className="rounded-xl bg-pink-50/70 p-3">
+          <p className="text-xs font-semibold text-pink-800">
+            Intense — Magnetic Presence
+          </p>
+          <p className="text-sm text-gray-700">
+            Ripe pear + warm bergamot with a fuller rose and lush orange blossom,
+            settling into musk, soft amber and warm woods—ideal for evening and
+            presence.
+          </p>
+        </div>
+      </div>
+
+      {/* Ritual AI */}
+      <div className="mt-3 rounded-xl border border-gray-100 bg-white p-3">
+        <p className="text-xs font-semibold text-gray-800">Ritual AI (NFC)</p>
+        <p className="text-sm text-gray-700">
+          Tap your smartphone near the bottle to activate a guided digital ritual
+          and choose the right intensity for the moment.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
         </div>
 
         {/* Other Recommendations */}
