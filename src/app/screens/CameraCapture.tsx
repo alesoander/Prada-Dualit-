@@ -42,65 +42,67 @@ export default function CameraCapture() {
       video.addEventListener("loadedmetadata", onReady);
     });
 
+
   const startCamera = async (requestedFacingMode?: "environment" | "user") => {
-    setCapturedImage(null);
-    setError(null);
-    const video = videoRef.current;
-    if (!video) return;
+  setCapturedImage(null);
+  setError(null);
 
-    const primary = requestedFacingMode ?? facingMode;
-    const fallback: "environment" | "user" = primary === "environment" ? "user" : "environment";
+  const video = videoRef.current;
+  if (!video) return;
 
-    const tryStart = async (constraints: MediaTrackConstraints) => {
-      const mediaStream = await navigator.mediaDevices.getUserMedia({
-        video: constraints,
-        audio: false,
-      });
-      await attachStream(video, mediaStream);
-      setStream(mediaStream);
-      setIsCameraActive(true);
+  const primary = requestedFacingMode ?? "user"; // ✅ default selfie for Start Camera and icon tap
+  const fallback: "environment" | "user" = primary === "environment" ? "user" : "environment";
 
-      // Detect black-stream: check videoWidth a short time after play starts.
-      // Guard against stale callbacks by verifying the track is still live.
-      if (blackStreamTimerRef.current !== null) {
-        clearTimeout(blackStreamTimerRef.current);
-      }
-      blackStreamTimerRef.current = setTimeout(() => {
-        blackStreamTimerRef.current = null;
-        const track = mediaStream.getVideoTracks()[0];
-        if (track && track.readyState === "live" && video.videoWidth === 0) {
-          stopStream(mediaStream);
-          setStream(null);
-          setIsCameraActive(false);
-          setError(
-            "Camera started but no video frames were received. Try switching camera or use upload."
-          );
-        }
-      }, 2000);
+  const tryStart = async (constraints: MediaTrackConstraints) => {
+    const mediaStream = await navigator.mediaDevices.getUserMedia({
+      video: constraints,
+      audio: false,
+    });
+
+    await attachStream(video, mediaStream);
+    setStream(mediaStream);
+    setIsCameraActive(true);
+
+    if (blackStreamTimerRef.current !== null) {
+      clearTimeout(blackStreamTimerRef.current);
     }
-      
 
-try {
-  // Try strict first
-  await tryStart({ facingMode: { exact: primary } as any });
-  setFacingMode(primary);
-} catch {
+    blackStreamTimerRef.current = setTimeout(() => {
+      blackStreamTimerRef.current = null;
+      const track = mediaStream.getVideoTracks()[0];
+      if (track && track.readyState === "live" && video.videoWidth === 0) {
+        stopStream(mediaStream);
+        setStream(null);
+        setIsCameraActive(false);
+        setError("Camera started but no video frames were received. Try switching camera or use upload.");
+      }
+    }, 2000);
+  };
+
   try {
-    // Then try "ideal"
+    await tryStart({ facingMode: { exact: primary } as any });
+    setFacingMode(primary);
+    return;
+  } catch {}
+
+  try {
     await tryStart({ facingMode: { ideal: primary } });
     setFacingMode(primary);
-  } catch {
-    // Fall back to the other camera
-    try {
-      await tryStart({ facingMode: { ideal: fallback } });
-      setFacingMode(fallback);
-    } catch (err) {
-      console.error("Error accessing camera:", err);
-      setError("Camera access denied. Please use upload option instead.");
-    }
-  }    
-    }
-  };
+    return;
+  } catch {}
+
+  try {
+    await tryStart({ facingMode: { ideal: fallback } });
+    setFacingMode(fallback);
+    return;
+  } catch (err) {
+    console.error("Error accessing camera:", err);
+    setError("Camera access denied. Please use upload option instead.");
+  }
+};
+
+
+  
 
   const switchCamera = async () => {
     const next: "environment" | "user" = facingMode === "environment" ? "user" : "environment";
@@ -181,7 +183,7 @@ try {
           ) : !isCameraActive ? (
             <div
               className="absolute inset-0 flex flex-col items-center justify-center px-6 cursor-pointer"
-              onClick={startCamera}
+              onClick={() => startCamera("user")}
               onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") startCamera(); }}
               role="button"
               tabIndex={0}
@@ -222,18 +224,17 @@ try {
 
         {/* Hidden file input */}
         <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/*"
-          capture="environment"
-          onChange={handleFileUpload}
-          className="hidden"
-        />
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleFileUpload}
+            className="hidden"
+          />
 
         {!isCameraActive && !capturedImage ? (
           <div className="space-y-3">
             <button
-              onClick={startCamera}
+              onClick={() => startCamera("user")}
               className="w-full py-4 bg-prada-gold text-prada-ink rounded-full text-lg shadow-prada hover:bg-prada-wine hover:text-white transition-all flex items-center justify-center gap-2"
             >
               <Camera className="w-6 h-6" />
