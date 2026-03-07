@@ -81,7 +81,7 @@ export default function PerfumeResults() {
               </button>
             </div>
           </div>
-        </div>
+       
 
         {/* Other Recommendations */}
         <div className="mb-4">
