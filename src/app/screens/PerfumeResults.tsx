@@ -18,7 +18,7 @@ const perfumes = [
     id: 2,
     name: "Intense",
     subtitle: "Presence in the room",
-    image: "https://lh3.googleusercontent.com/d/1roycXSRyKKMnEzffpfv2OsTWKXhDwX6g",
+    image: "https://lh3.googleusercontent.com/d/1JGcmg0hxVBjYdbemV2uPHwC_EC7ZA9GI",
     notes: ["Ripe pear", "Warm bergamot", "Full-bodied rose"],
     description: "Ideal for the evening, exuding sensuality and for those who want to show they are in control",
     price: "3 Sprays",
