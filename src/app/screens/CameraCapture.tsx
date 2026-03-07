@@ -98,9 +98,7 @@ try {
       console.error("Error accessing camera:", err);
       setError("Camera access denied. Please use upload option instead.");
     }
-  }
-}
-    
+  }    
     }
   };
 
