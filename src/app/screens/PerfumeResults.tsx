@@ -177,7 +177,7 @@ export default function PerfumeResults() {
                     <div className="mt-3 rounded-xl border border-gray-100 bg-white p-3">
                       <p className="text-xs font-semibold text-gray-800">Ritual AI (NFC)</p>
                       <p className="text-sm text-gray-700">
-                        Tap your smartphone near the bottle to activate a guided digital ritual
+                        Tap your smartphone near the bottle to activate a digital experience
                         and choose the right intensity for the moment.
                       </p>
                     </div>
