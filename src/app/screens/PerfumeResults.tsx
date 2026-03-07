@@ -127,7 +127,7 @@ export default function PerfumeResults() {
                   className="
                     pointer-events-none
                     absolute left-1/2 top-full z-20 mt-3 w-[min(92vw,420px)] -translate-x-1/2
-                    opacity-0 translate-y-1 scale-[0.98]
+                    opacity-100 translate-y-1 scale-[0.98]
                     transition-all duration-200
                     group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100
                   "
