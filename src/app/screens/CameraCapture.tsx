@@ -13,7 +13,7 @@ export default function CameraCapture() {
   const [isCameraActive, setIsCameraActive] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
-  const [facingMode, setFacingMode] = useState<"environment" | "user">("environment");
+  const [facingMode, setFacingMode] = useState<"environment" | "user">("user");
 
   const stopStream = (s: MediaStream | null) => {
     s?.getTracks().forEach((track) => track.stop());
