@@ -127,7 +127,7 @@ export default function PerfumeResults() {
       </button>
 
                 {/* Hover card */}
-                  <div className="absolute left-1/2 top-full z-[9999] mt-3 w-[min(92vw,420px)] -translate-x-1/2 opacity-100">
+                  <div className="absolute left-1/2 top-full z-[9999] mt-3 w-[min(92vw,420px)] -translate-x-1/2 opacity-0">
         <div className="rounded-2xl border border-purple-100 bg-white shadow-2xl p-4 text-left">
           <p className="text-xs uppercase tracking-wider text-purple-700/80">
             Prada Dualitá
