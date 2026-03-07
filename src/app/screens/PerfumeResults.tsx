@@ -3,6 +3,8 @@ import { ArrowLeft, Heart, Share2, Sparkles } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { useMemo, useState } from "react";
 
+
+const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 const basePerfumes = [
   {
     id: 1,
@@ -119,72 +121,134 @@ export default function PerfumeResults() {
 
     {/* Popover is now NOT clipped */}
     <div className="relative group">
-      <button
-        type="button"
-        className="w-full py-3 bg-prada-gold text-prada-ink rounded-full shadow-prada hover:bg-prada-wine hover:text-white transition-all"
-      >
-        View Details
-      </button>
+  <button
+    type="button"
+    onClick={() => setIsDetailsOpen((v) => !v)}
+    className="w-full py-3 bg-prada-gold text-prada-ink rounded-full shadow-prada hover:opacity-90 transition-all focus:outline-none focus:ring-2 focus:ring-prada-gold focus:ring-offset-2 focus:ring-offset-prada-warm-50"
+    aria-expanded={isDetailsOpen}
+    aria-controls="duality-details"
+  >
+    View Details
+  </button>
 
-                {/* Hover card */}
-             <div
-              className="
-                absolute left-1/2 top-full z-[9999] mt-3 w-[min(92vw,420px)] -translate-x-1/2
-                opacity-0 translate-y-2 scale-[0.98]
-                transition-all duration-200
-                group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100
-                pointer-events-auto
-              "
-            >
-        <div className="rounded-2xl border border-prada-peach-100 bg-white shadow-2xl p-4 text-left">
-          <p className="text-xs uppercase tracking-wider text-prada-gold">
-            Prada Dualitá
+  {/* Backdrop only for tap-open (mobile + desktop) */}
+  {isDetailsOpen && (
+    <button
+      type="button"
+      aria-label="Close details"
+      onClick={() => setIsDetailsOpen(false)}
+      className="fixed inset-0 z-[9998] bg-black/30"
+    />
+  )}
+
+  {/* DESKTOP HOVER POPOVER (not fixed) */}
+  <div
+    className={[
+      "pointer-events-none", // hover-only: doesn't capture mouse
+      "absolute left-1/2 top-full z-[9999] mt-3 w-[min(92vw,420px)] -translate-x-1/2",
+      "opacity-0 translate-y-2 scale-[0.98] transition-all duration-200",
+      "group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100",
+      // if opened by tap, hide this hover popover (we show the modal instead)
+      isDetailsOpen ? "hidden" : "block",
+    ].join(" ")}
+  >
+    <div className="rounded-2xl border border-prada-warm-100 bg-white/95 backdrop-blur shadow-2xl p-4 text-left">
+      <p className="text-xs uppercase tracking-wider text-prada-ink/70">Prada Dualitá</p>
+      <h4 className="text-lg text-prada-ink leading-snug">Your Time, Your Intensity</h4>
+
+      <p className="mt-2 text-sm text-prada-ink/80">
+        A contemporary luxury fragrance celebrating duality—two complementary
+        intensities in one iconic hourglass bottle, crafted with recycled
+        materials and refined rosé metallic details.
+      </p>
+
+      <div className="mt-3 grid gap-2">
+        <div className="rounded-xl bg-prada-peach-50 p-3 border border-prada-warm-100">
+          <p className="text-xs font-semibold text-prada-ink">Light Intensity — Intimate Elegance</p>
+          <p className="text-sm text-prada-ink/80">
+            White pear + Italian bergamot over Damask rose &amp; orange blossom,
+            finishing in white musk and cashmere wood—perfect for daytime and quiet confidence.
           </p>
-          <h4 className="text-lg text-gray-900 leading-snug">
-            Your Time, Your Intensity
-          </h4>
+        </div>
 
-                    <p className="mt-2 text-sm text-gray-700">
-                      A contemporary luxury fragrance celebrating duality—two complementary
-                      intensities in one iconic hourglass bottle, crafted with recycled
-                      materials and refined rosé metallic details.
-                    </p>
+        <div className="rounded-xl bg-prada-warm-50 p-3 border border-prada-warm-100">
+          <p className="text-xs font-semibold text-prada-ink">Intense — Magnetic Presence</p>
+          <p className="text-sm text-prada-ink/80">
+            Ripe pear + warm bergamot with a fuller rose and lush orange blossom,
+            settling into musk, soft amber and warm woods—ideal for evening and presence.
+          </p>
+        </div>
+      </div>
 
-                    <div className="mt-3 grid gap-2">
-                      <div className="rounded-xl bg-prada-peach-50/70 p-3">
-                        <p className="text-xs font-semibold text-prada-ink">
-                          Light Intensity — Intimate Elegance
-                        </p>
-                        <p className="text-sm text-gray-700">
-                          White pear + Italian bergamot over Damask rose &amp; orange blossom,
-                          finishing in white musk and cashmere wood—perfect for daytime and
-                          quiet confidence.
-                        </p>
-                      </div>
+      <div className="mt-3 rounded-xl border border-prada-warm-100 bg-white p-3">
+        <p className="text-xs font-semibold text-prada-ink">Ritual AI (NFC)</p>
+        <p className="text-sm text-prada-ink/80">
+          Tap your smartphone near the bottle to activate a guided digital ritual
+          and choose the right intensity for the moment.
+        </p>
+      </div>
+    </div>
+  </div>
 
-                      <div className="rounded-xl bg-prada-peach-100/70 p-3">
-                        <p className="text-xs font-semibold text-prada-ink">
-                          Intense — Magnetic Presence
-                        </p>
-                        <p className="text-sm text-gray-700">
-                          Ripe pear + warm bergamot with a fuller rose and lush orange blossom,
-                          settling into musk, soft amber and warm woods—ideal for evening and
-                          presence.
-                        </p>
-                      </div>
-                    </div>
+  {/* TAP MODAL (works on mobile; also works on desktop) */}
+  {isDetailsOpen && (
+    <div
+      id="duality-details"
+      className="fixed left-1/2 top-1/2 z-[9999] w-[min(92vw,420px)] -translate-x-1/2 -translate-y-1/2"
+    >
+      <div className="rounded-2xl border border-prada-warm-100 bg-white/95 backdrop-blur shadow-2xl p-4 text-left">
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <p className="text-xs uppercase tracking-wider text-prada-ink/70">Prada Dualitá</p>
+            <h4 className="text-lg text-prada-ink leading-snug">Your Time, Your Intensity</h4>
+          </div>
 
-                    <div className="mt-3 rounded-xl border border-gray-100 bg-white p-3">
-                      <p className="text-xs font-semibold text-gray-800">Ritual AI (NFC)</p>
-                      <p className="text-sm text-gray-700">
-                        Tap your smartphone near the bottle to activate a digital experience
-                        and choose the right intensity for the moment.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
+          <button
+            type="button"
+            onClick={() => setIsDetailsOpen(false)}
+            className="rounded-full px-3 py-1 text-sm bg-prada-warm-100 text-prada-ink hover:opacity-90"
+          >
+            Close
+          </button>
+        </div>
+
+        <p className="mt-2 text-sm text-prada-ink/80">
+          A contemporary luxury fragrance celebrating duality—two complementary
+          intensities in one iconic hourglass bottle, crafted with recycled
+          materials and refined rosé metallic details.
+        </p>
+
+        <div className="mt-3 grid gap-2">
+          <div className="rounded-xl bg-prada-peach-50 p-3 border border-prada-warm-100">
+            <p className="text-xs font-semibold text-prada-ink">Light Intensity — Intimate Elegance</p>
+            <p className="text-sm text-prada-ink/80">
+              White pear + Italian bergamot over Damask rose &amp; orange blossom,
+              finishing in white musk and cashmere wood—perfect for daytime and quiet confidence.
+            </p>
+          </div>
+
+          <div className="rounded-xl bg-prada-warm-50 p-3 border border-prada-warm-100">
+            <p className="text-xs font-semibold text-prada-ink">Intense — Magnetic Presence</p>
+            <p className="text-sm text-prada-ink/80">
+              Ripe pear + warm bergamot with a fuller rose and lush orange blossom,
+              settling into musk, soft amber and warm woods—ideal for evening and presence.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-3 rounded-xl border border-prada-warm-100 bg-white p-3">
+          <p className="text-xs font-semibold text-prada-ink">Ritual AI (NFC)</p>
+          <p className="text-sm text-prada-ink/80">
+            Tap your smartphone near the bottle to activate a guided digital ritual
+            and choose the right intensity for the moment.
+          </p>
+        </div>
+      </div>
+    </div>
+  )}
+</div>
+
+             
     </div>
   </div>
 
