@@ -108,6 +108,7 @@ export default function PerfumeResults() {
                 <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm text-purple-600 px-3 py-1 rounded-full text-sm shadow">
                   {perfume.match}%
                 </div>
+              </div
               </div>
               
               <div className="p-4">
