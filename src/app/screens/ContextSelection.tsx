@@ -4,7 +4,7 @@ import { Clock, Calendar, MapPin, Thermometer, ArrowRight } from "lucide-react";
 
 const timeOptions = ["Day", "Afternoon", "Night"];
 const seasonOptions = ["Winter", "Summer", "Autumn", "Spring"];
-const occasionOptions = ["Romantic Date", "Shopping", "Family Dinner"];
+const occasionOptions = ["Romantic Date", "Shopping", "Family Meeting", "Sport", "Business"];
 
 export default function ContextSelection() {
   const [selectedTime, setSelectedTime] = useState<string>("Day");
