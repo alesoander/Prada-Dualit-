@@ -83,7 +83,7 @@ export default function PerfumeResults() {
               </button>
             </div>
           </div>
-       
+        </div>
 
         {/* Other Recommendations */}
         <div className="mb-4">
@@ -141,6 +141,7 @@ export default function PerfumeResults() {
                 </div>
               </div>
             </div>
+      
           ))}
         </div>
 
